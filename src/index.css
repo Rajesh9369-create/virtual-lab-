@@ -1,0 +1,248 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+
+  /* Pharma Virtual Lab palette */
+  --color-bone: #f4f0ec; /* background */
+  --color-sand: #e9e1db; /* secondary surface */
+  --color-clay: #ddd1c8; /* soft surface */
+  --color-ink: #1d1b1a; /* primary text */
+  --color-smoke: #6f6964; /* muted text */
+  --color-ember: #f26a21; /* orange accent */
+  --color-ember-deep: #c94b12; /* deep orange */
+
+  --animate-pulse-soft: pulse-soft 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-spin-slow: spin-slow 52s linear infinite;
+  --animate-rise: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade: fade 0.9s ease both;
+  --animate-swap: swap 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-drip: drip 0.75s cubic-bezier(0.4, 0, 0.9, 0.6) infinite;
+  --animate-swell: swell 1.1s ease-in-out infinite;
+  --animate-drop-fall: drop-fall 0.8s linear infinite;
+  --animate-surface: surface 2.6s ease-in-out infinite;
+  --animate-target-pulse: target-pulse 2s ease-in-out infinite;
+  --animate-hint-bob: hint-bob 2.3s ease-in-out infinite;
+  --animate-shake-soft: shake-soft 0.42s ease-in-out;
+  --animate-rise-in: rise-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-flow-stream: flow-stream 0.9s ease-in-out infinite;
+  --animate-step-complete: step-complete 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  --animate-value-tick: value-tick 0.35s ease-out;
+
+  @keyframes pulse-soft {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    70%,
+    100% {
+      transform: scale(2.1);
+      opacity: 0;
+    }
+  }
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes swap {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  /* A falling titrant drop — communicates active delivery. */
+  @keyframes drip {
+    0% {
+      transform: translateY(0) scale(0.5, 0.7);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(30px) scale(0.85, 1.35);
+      opacity: 0;
+    }
+  }
+  /* Gentle liquid agitation while titrant is being added. */
+  @keyframes swell {
+    0%,
+    100% {
+      transform: scaleX(1);
+    }
+    50% {
+      transform: scaleX(1.035);
+    }
+  }
+  /* A titrant drop falling from the burette tip into the flask. */
+  @keyframes drop-fall {
+    0% {
+      transform: translateY(0) scale(0.35, 0.6);
+      opacity: 0;
+    }
+    14% {
+      opacity: 1;
+    }
+    82% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(var(--drop-dist, 46px)) scale(0.95, 1.3);
+      opacity: 0;
+    }
+  }
+  /* Liquid surface drift — reads as a live liquid, not a static fill. */
+  @keyframes surface {
+    0%,
+    100% {
+      transform: translateX(-1.5%) scaleY(1);
+    }
+    50% {
+      transform: translateX(1.5%) scaleY(1.04);
+    }
+  }
+  /* Attention on the one object the current step needs. */
+  @keyframes target-pulse {
+    0%,
+    100% {
+      opacity: 0.28;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1.05);
+    }
+  }
+  /* Floating label nudge toward the target. */
+  @keyframes hint-bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+  /* Soft, non-punitive refusal when the wrong object is used. */
+  @keyframes shake-soft {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-3px);
+    }
+    75% {
+      transform: translateX(3px);
+    }
+  }
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 96px;
+  }
+
+  body {
+    background-color: var(--color-bone);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: var(--color-ember);
+    color: #ffffff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ember);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 74rem;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 640px) {
+    .container {
+      padding-inline: 2rem;
+    }
+  }
+}
+
+/* Thin, unobtrusive scrollbars inside the laboratory panels. */
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(190, 220, 255, 0.2) transparent;
+}
+.scroll-thin::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: rgba(190, 220, 255, 0.2);
+  border-radius: 999px;
+}
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
